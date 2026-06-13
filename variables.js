@@ -8,6 +8,6 @@ let age = 18
 console.log(age)
 }
 
-//variables declaration using const
-const college = "VETIAS"
-console.log(college)
+// //variables declaration using const
+// const college = "VETIAS"
+// console.log(college)
