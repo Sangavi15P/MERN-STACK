@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+        <script>
+
+            const studentpromise =
+             new Promise(function(resolve,reject){
+
+                console.log("inside promise");
+
+                let success = false;
+
+                setTimeout(function(){
+
+                    console.log("Inside setTimeout");
+
+                    if(success){
+
+                        console.log("Inside success");
+                        resolve("Student loaded succesfully");
+                    }else{
+
+                        console.log("Inside Error");
+                        reject("Failed to load student");
+                    }
+                },3000);
+            });
+
+            studentpromise
+            .then(function(result){
+                console.log("inside  then");
+
+                console.log(result);
+            })
+            .catch(function(error){
+                console.log("Inside Catch");
+                console.log(error);
+            });
+        </script>
+    </body>
+</html>

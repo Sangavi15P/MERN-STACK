@@ -39,6 +39,9 @@ console.log(symbolsvalue);
 
 
 
+
+
+
 //NON-PRIMITIVE DATA TYPES
 
 //OBJECTS

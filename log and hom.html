@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>CINEPLEX - Premium Experience</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ffb4aa",
+                        "primary-container": "#e50914",
+                        "on-primary-container": "#fff7f6",
+                        secondary: "#fff9ef",
+                        "secondary-container": "#ffdb3c",
+                        surface: "#121414",
+                        "surface-container": "#1e2020",
+                        "surface-variant": "#333535",
+                        "on-surface": "#e2e2e2",
+                        "on-surface-variant": "#e9bcb6",
+                        outline: "#af8782",
+                        background: "#0c0f0f",
+                        "on-background": "#e2e2e2",
+                        "on-secondary": "#3a3000"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+
+                    spacing: {
+                        sm: "8px",
+                        md: "16px",
+                        lg: "24px",
+                        xl: "48px",
+                        "margin-desktop": "80px",
+                        "margin-mobile": "16px",
+                        gutter: "16px"
+                    },
+
+                    fontFamily: {
+                        display: ["Montserrat"],
+                        body: ["Inter"],
+                        mono: ["JetBrains Mono"],
+                        "display-lg": ["Montserrat"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Montserrat"]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        .cinema-gradient {
+            background: radial-gradient(circle at center,
+                    #1e2020 0%,
+                    #0c0f0f 100%);
+        }
+
+        .glass {
+            background: rgba(30, 32, 32, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 180, 170, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .material-symbols-outlined {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-[#0c0f0f] text-on-surface font-body min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-white">
+
+    <!-- LOGIN PAGE -->
+    <div id="login-page"
+        class="min-h-screen flex items-center justify-center relative overflow-hidden z-50">
+
+        <div class="absolute inset-0 z-0 cinema-gradient">
+
+            <div
+                class="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
+            </div>
+
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] bg-primary-container/10 blur-[120px] rounded-full">
+            </div>
+
+        </div>
+
+        <main class="w-full max-w-md z-10 px-6">
+
+            <div class="glass p-8 md:p-10 rounded-2xl shadow-2xl">
+
+                <header class="text-center mb-8">
+
+                    <h1
+                        class="font-display text-4xl font-extrabold text-primary-container tracking-tighter uppercase mb-1">
+                        CINEPLEX
+                    </h1>
+
+                    <p
+                        class="font-mono text-[10px] tracking-widest text-on-surface-variant uppercase">
+                        Premium Cinema Experience
+                    </p>
+
+                </header>
+
+                <!-- Tabs -->
+                <div class="flex p-1 bg-background/50 rounded-xl mb-8 relative">
+
+                    <button
+                        class="flex-1 py-3 text-xs font-mono z-10 transition-colors text-primary-container font-bold"
+                        id="user-tab"
+                        onclick="switchTab('user')">
+
+                        USER LOGIN
+
+                    </button>
+
+                    <button
+                        class="flex-1 py-3 text-xs font-mono z-10 transition-colors text-on-surface-variant"
+                        id="admin-tab"
+                        onclick="switchTab('admin')">
+
+                        ADMIN LOGIN
+
+                    </button>
+
+                    <div
+                        class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-surface-container rounded-lg transition-transform duration-300"
+                        id="slider">
+                    </div>
+
+                </div>
+
+                <!-- Login Form -->
+                <form
+                    class="space-y-6"
+                    id="login-form"
+                    onsubmit="handleLogin(event)">
+
+                    <div class="space-y-4">
+
+                        <!-- Username -->
+                        <div class="space-y-1">
+
+                            <label
+                                class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider ml-1">
+
+                                Email or Username
+
+                            </label>
+
+                            <div class="relative group">
+
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-container">
+
+                                    person
+
+                                </span>
+
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="Enter credentials"
+                                    class="w-full bg-background/40 border border-outline/20 rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none text-sm">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Password -->
+                        <div class="space-y-1">
+
+                            <label
+                                class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider ml-1">
+
+                                Password
+
+                            </label>
+
+                            <div class="relative group">
+
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-container">
+
+                                    lock
+
+                                </span>
+
+                                <input
+                                    type="password"
+                                    required
+                                    placeholder="........"
+                                    class="w-full bg-background/40 border border-outline/20 rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none text-sm">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                                        <div class="flex items-center justify-between px-1">
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input
+                                class="rounded-sm border-outline/30 bg-background text-primary-container focus:ring-primary-container"
+                                type="checkbox" />
+
+                            <span class="text-xs text-on-surface-variant group-hover:text-on-surface">
+                                Remember me
+                            </span>
+                        </label>
+
+                        <a class="text-xs text-primary-container hover:underline" href="#">
+                            Forgot?
+                        </a>
+                    </div>
+
+                    <button
+                        class="w-full bg-primary-container text-on-primary-container py-4 rounded-xl font-mono text-xs font-bold tracking-[0.2em] hover:brightness-110 active:scale-[0.98] transition-all shadow-xl shadow-primary-container/10"
+                        type="submit">
+
+                        CONTINUE TO SCREEN
+
+                    </button>
+
+                    <div
+                        class="text-center pt-6 border-t border-outline/10"
+                        id="signup-prompt">
+
+                        <p class="text-xs text-on-surface-variant">
+                            Don't have an account?
+
+                            <a class="text-primary-container font-bold hover:underline ml-1" href="#">
+                                Sign Up
+                            </a>
+                        </p>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="mt-8 flex flex-col items-center gap-4">
+
+                <div
+                    class="flex justify-center gap-6 font-mono text-[9px] text-on-surface-variant/40 tracking-[0.15em]">
+
+                    <a class="hover:text-primary-container" href="#">
+                        PRIVACY
+                    </a>
+
+                    <a class="hover:text-primary-container" href="#">
+                        TERMS
+                    </a>
+
+                    <a class="hover:text-primary-container" href="#">
+                        SUPPORT
+                    </a>
+
+                </div>
+
+                <div
+                    class="flex flex-wrap justify-center gap-2 opacity-30 hover:opacity-100 transition-opacity">
+
+                    <button
+                        onclick="bypassToHome()"
+                        class="text-[8px] border border-outline/20 px-2 py-1 rounded text-on-surface-variant">
+
+                        BYPASS TO HOME
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- HOME PAGE -->
+
+    <div
+        id="home-page"
+        class="hidden min-h-screen bg-[#121414] text-on-background font-body-lg pb-20">
+
+        <header
+            class="bg-background/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-white/10">
+
+            <div
+                class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-full mx-auto">
+
+                <span
+                    class="font-display-lg text-2xl font-bold tracking-tighter text-primary">
+
+                    CINEPLEX
+
+                </span>
+
+                <nav
+                    class="hidden md:flex gap-lg items-center font-label-caps text-xs">
+
+                    <a
+                        class="text-primary border-b-2 border-primary pb-1"
+                        href="#">
+
+                        Movies
+
+                    </a>
+
+                    <a
+                        class="text-on-surface-variant hover:text-on-surface"
+                        href="#">
+
+                        Food
+
+                    </a>
+
+                </nav>
+
+                <span
+                    class="material-symbols-outlined text-primary cursor-pointer"
+                    onclick="logout()">
+
+                    account_circle
+
+                </span>
+
+            </div>
+
+        </header>
+
+        <main class="pt-24 px-margin-mobile md:px-margin-desktop">
+
+            <section class="mb-xl">
+
+                <div
+                    class="rounded-xl glass-card p-lg flex flex-col md:flex-row items-center justify-between gap-md border-l-4 border-primary-container">
+
+                    <div>
+
+                        <span
+                            class="font-label-caps text-xs text-secondary-container mb-sm block">
+
+                            EXCLUSIVE NEW RELEASES
+
+                        </span>
+
+                        <h2 class="font-display-lg text-xl text-white mb-2">
+
+                            Free Popcorn on all New Releases!
+
+                        </h2>
+
+                        <p class="text-sm text-on-surface-variant">
+
+                            Book now and enjoy a complimentary big-size popcorn
+                            with every 6 tickets.
+
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="bg-secondary-container text-on-secondary px-lg py-md rounded-full font-bold hover:scale-105 transition-transform shrink-0"
+                        onclick="filter('ac')">
+
+                        Grab Deal
+
+                    </button>
+
+                </div>
+
+            </section>
+
+            <section
+                class="mb-lg flex flex-wrap items-center justify-between gap-4">
+
+                <div class="flex gap-sm">
+
+                    <button
+                        class="filter-btn px-6 py-2 rounded-full font-label-caps text-[11px] bg-primary-container text-white"
+                        id="btn-all"
+                        onclick="filter('all')">
+
+                        ALL MOVIES
+
+                    </button>
+
+                    <button
+                        class="filter-btn px-6 py-2 rounded-full font-label-caps text-[11px] border border-outline text-on-surface-variant"
+                        id="btn-ac"
+                        onclick="filter('ac')">
+
+                        AC SCREENS
+
+                    </button>
+
+                    <button
+                        class="filter-btn px-6 py-2 rounded-full font-label-caps text-[11px] border border-outline text-on-surface-variant"
+                        id="btn-non-ac"
+                        onclick="filter('non-ac')">
+
+                        NON-AC SCREENS
+
+                    </button>
+
+                </div>
+
+            </section>
+
+            <section
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter"
+                id="movie-grid">
+                <!-- Stranger Things -->
+<div class="movie-card group flex flex-col" data-cat="ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLUCSJpdIQAfBjH-h8uoVkvw12a-ebZQ_TfxctZBMH650d0k2vAsJSIrGfJQ1DSfngvyOC2-h5d8R8-0ckYaQVzoCXJTQBCAfQDwW2aQzITywz0fifPpOZDsp630R9MzH2ELcp1ugnlk7Ydp6hES4B20yurV_YvmTdhRAT_RJ5leSQTebctz88npXao1-WdIFFEmT1N35YCDIYL6TVBEC1aBxMvdXMSvQriQ0P1a7sq9su2k4va_VOTLwg" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Stranger Things
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Sci-Fi / Horror
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Train to Busan -->
+<div class="movie-card group flex flex-col" data-cat="ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLtAwtY5aZjzltzSziiEOLYPj0TcCU94RFy1pjl-g3dyZ4TlavonLwy1l4eZ1nO0VhL9m37r-rRchF80MsimuCKOTHb6bUuZkJauBeOR-Gy2bZIRTuuLbUMVRaHnzgrV7ep0r44p-9VoDNOIePCN7Qhok0X9Q6pGD8cqo9fzwn0419SCEP25mebUu20ah2OwLT1Th3DSpZRWAwchaf_5i1LJBI8V_ch7zfPolK5e2jDwt6XGDTsq6tV6Zsg" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Train to Busan
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Action / Horror
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+<!-- The Conjuring -->
+<div class="movie-card group flex flex-col" data-cat="ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLuLiU3xBsrmePO1VIGpTBlIdIQOaAvxm6CXBTI_cqlba_OvAtFHWQ212Jw0kPK5T9WkaUc2UMHDFJJXhYAMdnaptTK-CrzFIL6snTdSYZzV6HgZk7wp92GBbFkUPPDCM-NMITA3YIIxrXrA7ISDKOHMsZ8CRS7ehCAz-40PKODwPEHjpgyGucudmLKK3nqIEZYypr-ZgnEByQ--0_ykA56m36yl-5PqtAs0D3LCR_F5GLMnObANL0BfF6E" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        The Conjuring
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Horror / Supernatural
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- The Nun -->
+<div class="movie-card group flex flex-col" data-cat="ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLv5QZpCqGE6pqA-SfKpWcjub8FLbW3X4va80F-zesTdPaZjiUpY209cW5VwP7y6ZbcwQS5hHzBa64-7P_ZTIRxCnAZ3KDgsW1fYi9pJD8tWfa0lvaUNVnlvcmJj8qERSG_-0PgqmdUc5r9BintQuPqcl80BpzclFQBQHeGAyZjzmPPjAEpQsDHF5V8CYR7HEZ00D9DeEcBsA3JwYTGVZNRVJ55e8kPAX0A6Ni4eUmqi07CCo-1Tg0cyboM" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        The Nun
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Horror / Gothic
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Interstellar -->
+<div class="movie-card group flex flex-col" data-cat="ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLuhMPV1tJWXS10PPpNF7cWPIHIf9ODoBdGLGOhDwdJ457wG7tDXu7jxdHsOKcKgAbDCS_ha-EOK9UA2OMkwCuFY5a5DR8c8jBz6oPthCvQPf3d3k0kVqvR-LAQUE4fotafG39mVrqEmphENQOKvDitXvkVxfm9Fqj8uiiiLVFBwPzTEu8wMFLqK9fEff7dKwXOwiZEI6dF4KFfljh6xTNXz1Q2GWKaVCPto2412AJsh4qoe_K_JLkL4vw" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Interstellar
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Sci-Fi / Adventure
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Inception -->
+<div class="movie-card group flex flex-col" data-cat="non-ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLtTugtjdJrDaXcG9KzjIZSs1N4mXB3rZQmPsZiTEjwnhc_lzuNSu7Bps6UWtznLrj9wYheOwtJGwNoFwOb4d_v9y7hJglvvFWPOcLSc69H80Tm-ZAK_CceyvLfZU8ww0FX_I1L_JxoByp0Hvjq3t11zj9EE0nX3ekocMuRPNi5NhbUoHJWZ7Xrm86yzleXlhei6t2YkLNSchNbZBkHjDNC-A4PLQbgKscDyFUI6TBIEaHtoptpz6y4ihGl" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Inception
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Sci-Fi / Thriller
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Obsession -->
+<div class="movie-card group flex flex-col" data-cat="non-ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLuG6ZfjW8yNSGK0aiasmFDshUIXnfY6Fx78Q-nLlpzzguCxYb42cAGsFxJjNcF9hrYYEzqoa--yfHyD08PupUPgVbiMXnOt8sd_sTeRIF2xXqy5jUTyd3w-DpqgnB7RNwO0TPwegdRZc0A2zFrg15TW8w7FM6Q5bkU3MAyv8EdB5BQM0MzdlBeUz7IXkeb_D-ezjAEt-1shX9Ohd9GQQ85uyqu5A0tbyNKQgZbZ-2VceHg30Apt9du82tU" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Obsession
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Thriller / Drama
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Evil Dead -->
+<div class="movie-card group flex flex-col" data-cat="non-ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLtIRPJh6qly81411GY6N2y27WVrc1W-RZsisNRGrjMbGhG7u0lmtDJqwhbKszAXNGAJaBCJ9TkJxVEGhelYZrba5_9rGIBKMt-v0jXUsNC9VGuBprpc_7iqZdUL2t-2VwtYLGj4cA_iGSR8Znfy-7TprUbaKO7qugaFFCTKWShV9TurOwhXWzgMAmpBsj0VDJz3LLtu8TexRZNXIzGw3CSdJ40P3L9r9c4INBitSHqWweQX8BJszPkhvqc" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Evil Dead
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Horror
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Dhurandhar -->
+<div class="movie-card group flex flex-col" data-cat="non-ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLue1FIS8vHej_ZbUyw-OWbDH-TVVgxTMhow_e8QmNMvhd2xfsaVufw1REIpZBoKqj5qoX40jk9KONCGBv-6FGbYisFCTga-vMvo7fCAEvS_HMhr4f3TT3VIOrzoW1z283us85194mQeJlwp0H3jRk_3088z62HNUblbyigE3RFehrzPzxaOToHjk8nsJXsREAlyneJBHCkps7Y5k-GQKdiFUW485OakSQK4cc4yBzA-e5hSmnrL3KyF2g" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Dhurandhar
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Action / Comedy
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+
+<!-- Dhurandhar - The Revenge -->
+<div class="movie-card group flex flex-col" data-cat="non-ac">
+    <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLvUGNsAqOYUhDrXfL1SPIvXrBDsreRe-0M_BFkGVA8RpMP5WCEm3vFR9d-HSD0A0h7oKPGSspgxPBKrUcswkyFGGFnbFQd719ITBS4Nj9KjpbAflCZyuHFixlkhbBBXPNY96hUEXPIrY-fpiCm6ld7-hE-QHE_5mO0tu_NjkmvolXb7gJILKQ3SCYTgMWzBph61Z93_LTjgw64Bx-MBJkDqwr2-6y3gYKMVMW3P8335bo3C5FVk4DRDTos" />
+    </div>
+
+    <h3 class="font-title-md text-white">
+        Dhurandhar - The Revenge
+    </h3>
+
+    <p class="text-[11px] font-label-caps text-primary/80 mt-1">
+        Action / Thriller
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-4 timings-container"></div>
+</div>
+            </section>
+        </main>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full h-16 flex justify-around items-center bg-surface-container/90 backdrop-blur-2xl border-t border-white/5 z-50">
+
+            <a class="flex flex-col items-center text-primary-container" href="#">
+                <span class="material-symbols-outlined"
+                    style="font-variation-settings:'FILL' 1">
+                    movie
+                </span>
+
+                <span class="text-[10px]">
+                    Movies
+                </span>
+            </a>
+
+            <a class="flex flex-col items-center text-on-surface-variant/60" href="#">
+                <span class="material-symbols-outlined">
+                    fastfood
+                </span>
+
+                <span class="text-[10px]">
+                    Food
+                </span>
+            </a>
+
+            <a class="flex flex-col items-center text-on-surface-variant/60"
+                href="#"
+                onclick="logout()">
+
+                <span class="material-symbols-outlined">
+                    person
+                </span>
+
+                <span class="text-[10px]">
+                    Profile
+                </span>
+
+            </a>
+
+        </nav>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+
+        /* Login Logic */
+
+        let currentRole = 'user';
+
+        function switchTab(type) {
+
+            currentRole = type;
+
+            const userTab = document.getElementById('user-tab');
+            const adminTab = document.getElementById('admin-tab');
+            const slider = document.getElementById('slider');
+            const signup = document.getElementById('signup-prompt');
+
+            if (type === 'user') {
+
+                slider.style.transform = 'translateX(0)';
+
+                userTab.classList.add(
+                    'text-primary-container',
+                    'font-bold'
+                );
+
+                adminTab.classList.remove(
+                    'text-primary-container',
+                    'font-bold'
+                );
+
+                adminTab.classList.add(
+                    'text-on-surface-variant'
+                );
+
+                signup.style.display = 'block';
+
+            } else {
+
+                slider.style.transform = 'translateX(100%)';
+
+                adminTab.classList.add(
+                    'text-primary-container',
+                    'font-bold'
+                );
+
+                userTab.classList.remove(
+                    'text-primary-container',
+                    'font-bold'
+                );
+
+                userTab.classList.add(
+                    'text-on-surface-variant'
+                );
+
+                signup.style.display = 'none';
+            }
+        }
+
+
+        function handleLogin(e) {
+
+            e.preventDefault();
+
+            document.getElementById('login-page')
+                .classList.add('hidden');
+
+            document.getElementById('home-page')
+                .classList.remove('hidden');
+
+            window.scrollTo(0, 0);
+        }
+
+
+        function bypassToHome() {
+
+            document.getElementById('login-page')
+                .classList.add('hidden');
+
+            document.getElementById('home-page')
+                .classList.remove('hidden');
+
+            window.scrollTo(0, 0);
+        }
+
+
+        function logout() {
+
+            document.getElementById('home-page')
+                .classList.add('hidden');
+
+            document.getElementById('login-page')
+                .classList.remove('hidden');
+        }
+
+
+        /* Movie Timings */
+
+        const times = [
+            '10:00 AM',
+            '1:30 PM',
+            '4:30 PM',
+            '9:00 PM'
+        ];
+
+
+        document.querySelectorAll('.timings-container')
+            .forEach(container => {
+
+                times.forEach(time => {
+
+                    const btn = document.createElement('button');
+
+                    btn.className =
+                        'text-[10px] font-bold border border-white/20 px-2 py-2 rounded hover:bg-primary-container hover:text-white transition-colors flex-1';
+
+                    btn.textContent = time;
+
+                    container.appendChild(btn);
+
+                });
+
+            });
+
+
+        /* Movie Filter */
+
+        function filter(category) {
+
+            document.querySelectorAll('.movie-card')
+                .forEach(card => {
+
+                    card.classList.toggle(
+                        'hidden',
+                        category !== 'all' &&
+                        card.dataset.cat !== category
+                    );
+
+                });
+
+
+            document.querySelectorAll('.filter-btn')
+                .forEach(btn => {
+
+                    const active =
+                        btn.id === 'btn-' + category;
+
+                    btn.className =
+                        `filter-btn px-6 py-2 rounded-full font-label-caps text-[11px]
+                        ${
+                            active
+                                ? 'bg-primary-container text-white'
+                                : 'border border-outline text-on-surface-variant'
+                        }`;
+
+                });
+        }
+
+    </script>
+
+</body>
+
+</html>
